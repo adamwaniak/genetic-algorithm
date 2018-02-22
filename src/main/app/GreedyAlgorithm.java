@@ -2,22 +2,16 @@ package app;
 
 import javafx.util.Pair;
 
-public class GreedyAlgorithm implements Algorithm{
+public class GreedyAlgorithm  {
     private DataModel dataModel;
 
     public GreedyAlgorithm(DataModel dataModel) {
         this.dataModel = dataModel;
     }
 
-    @Override
-    public int run() {
-        int n = dataModel.getNumberOfLocations();
-        int[] result = new int[n];
 
-
-
-
-        return 0;
+    public int[] solution() {
+        return new int[0];
     }
 
     private Pair<Integer,Integer> getIndicesOfMaximumValue(int [][] matrix){

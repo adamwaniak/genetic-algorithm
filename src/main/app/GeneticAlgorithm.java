@@ -1,9 +1,9 @@
 package app;
 
-public class GeneticAlgorithm implements Algorithm{
-    @Override
-    public int run() {
-        return 0;
+public class GeneticAlgorithm {
+
+    public int[] solution() {
+        return new int[0];
     }
 
     private int population;
