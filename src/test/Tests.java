@@ -1,3 +1,4 @@
+import app.Algorithm;
 import app.DataModel;
 import app.GreedyAlgorithm;
 import app.RandomSearch;
@@ -27,13 +28,15 @@ public class Tests {
         for(int i=0;i<4;i++){
             solution[i] = i;
         }
-        Assert.assertEquals(smallDataModel.getTotalCost(solution),454);
+        Algorithm algorithm = new RandomSearch(smallDataModel);
+        Assert.assertEquals(algorithm.getTotalCost(solution),454);
     }
 
     @Test
     public void testTotalSum2(){
         int [] solution = {2,3,0,1};
-        Assert.assertEquals(smallDataModel.getTotalCost(solution),395);
+        Algorithm algorithm = new RandomSearch(smallDataModel);
+        Assert.assertEquals(algorithm.getTotalCost(solution),395);
     }
 
 
@@ -56,7 +59,7 @@ public class Tests {
     @Test
     public void testGreedyAlgorithm(){
         GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(dataModel);
-        System.out.println("Actual solution is " + greedyAlgorithm.minTotalCost());
+        System.out.println("Actual solution is " + greedyAlgorithm.minTotalCost(1));
         System.out.println("Optimal solution is 1160");
     }
 }

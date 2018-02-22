@@ -36,25 +36,5 @@ public class DataModel {
     }
 
 
-    /**
-     *
-     * @param solution is a vector; indices are factories and values are places
-     * @return total cost of given solution
-     */
-    public int getTotalCost(int[] solution) {
-        if (solution.length != numberOfLocations) {
-            return -1;
-        }
-        int sum = 0;
-        for (int i = 0; i < numberOfLocations; i++) {
-            for (int j = i + 1; j < numberOfLocations; j++) {
-                sum += getCostBetweenTwoFacilities(i,j,solution[i],solution[j]);
-            }
-        }
-        return sum;
-    }
 
-    public int getCostBetweenTwoFacilities(int firstFactory, int secondFactory, int firstLocation, int secondLocation){
-        return flowMatrix[firstFactory][secondFactory] * distanceMatrix[firstLocation][secondLocation];
-    }
 }

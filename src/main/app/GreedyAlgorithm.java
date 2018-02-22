@@ -1,21 +1,14 @@
 package app;
 
-import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class GreedyAlgorithm  {
-    private DataModel dataModel;
+public class GreedyAlgorithm  extends Algorithm {
 
     public GreedyAlgorithm(DataModel dataModel) {
-        this.dataModel = dataModel;
+        super(dataModel);
     }
 
-    public int minTotalCost(){
-        return dataModel.getTotalCost(solution());
-    }
 
     public int[] solution() {
         int n = dataModel.getNumberOfLocations();
@@ -30,7 +23,7 @@ public class GreedyAlgorithm  {
         for (int i = 0; i < n-1; i++) {
             minCost = Integer.MAX_VALUE;
             for(int j : factories){
-                if ((cost = dataModel.getCostBetweenTwoFacilities(i,i+1,result[i],j)) < minCost){
+                if ((cost = getCostBetweenTwoFacilities(i,i+1,result[i],j)) < minCost){
                     bestFactory = j;
                     minCost = cost;
                 }
@@ -42,13 +35,7 @@ public class GreedyAlgorithm  {
     }
 
 
-    private List<Integer> getFilledList(int size) {
-        List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            result.add(i);
-        }
-        return result;
-    }
+
 
 
 
