@@ -48,9 +48,13 @@ public class DataModel {
         int sum = 0;
         for (int i = 0; i < numberOfLocations; i++) {
             for (int j = i + 1; j < numberOfLocations; j++) {
-                sum += flowMatrix[i][j] * distanceMatrix[solution[i]][solution[j]];
+                sum += getCostBetweenTwoFacilities(i,j,solution[i],solution[j]);
             }
         }
         return sum;
+    }
+
+    public int getCostBetweenTwoFacilities(int firstFactory, int secondFactory, int firstLocation, int secondLocation){
+        return flowMatrix[firstFactory][secondFactory] * distanceMatrix[firstLocation][secondLocation];
     }
 }
