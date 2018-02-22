@@ -4,9 +4,7 @@ package app.utils;
 import app.DataModel;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class DataReader {
@@ -16,15 +14,15 @@ public class DataReader {
     private DataReader() {
     }
 
-    public static Map<Integer, DataModel> getModelsFromData(){
+    public static List<DataModel> getModelsFromData(){
         return getModelsFromData(false);
     }
 
     /**
      * @return Map<n   ,       DataModel> where n in number of locations
      */
-    public static Map<Integer, DataModel> getModelsFromData(boolean isTest ) {
-        Map<Integer, DataModel> locationsMap = new HashMap<>();
+    public static List<DataModel> getModelsFromData(boolean isTest ) {
+        List<DataModel> dataModels = new ArrayList<>();
         int numberOfLocations;
         String path;
         if (isTest) {
@@ -57,7 +55,7 @@ public class DataReader {
                     }
                 }
                 dataModel.setFlowMatrix(flowMatrix).setDistanceMatrix(distanceMatrix);
-                locationsMap.put(numberOfLocations, dataModel);
+                dataModels.add(dataModel);
             }
             scanner.close();
             bufferedReader.close();
@@ -72,7 +70,7 @@ public class DataReader {
                             + path + "'");
         }
 
-        return locationsMap;
+        return dataModels;
     }
 
 
