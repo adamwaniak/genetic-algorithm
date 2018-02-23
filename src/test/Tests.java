@@ -1,25 +1,19 @@
-import app.Algorithm;
-import app.DataModel;
-import app.GreedyAlgorithm;
-import app.RandomSearch;
+import app.Individual;
+import app.utils.GreedyAlgorithm;
+import app.utils.RandomSearch;
 import app.utils.DataReader;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 public class Tests {
 
-    private DataModel smallDataModel = DataReader.getModels(true).get(0);
-    private DataModel dataModel = DataReader.getModels(true).get(1);
+    private Individual smallIndividual = DataReader.getModels(true).get(0);
+    private Individual individual = DataReader.getModels(true).get(1);
 
 
     @Test
     public void testDataReader(){
-
-        Assert.assertNotNull(smallDataModel);
-        String flowMatrix = Arrays.deepToString(smallDataModel.getFlowMatrix());
-        System.out.println(flowMatrix);
+        Assert.assertEquals(DataReader.getModels(true).size(),2);
     }
 
     @Test
@@ -28,21 +22,21 @@ public class Tests {
         for(int i=0;i<4;i++){
             solution[i] = i;
         }
-        Algorithm algorithm = new RandomSearch(smallDataModel);
-        Assert.assertEquals(algorithm.getTotalCost(solution),454);
+        smallIndividual.setSolution(solution);
+        Assert.assertEquals(smallIndividual.getFitness(),454);
     }
 
     @Test
     public void testTotalSum2(){
         int [] solution = {2,3,0,1};
-        Algorithm algorithm = new RandomSearch(smallDataModel);
-        Assert.assertEquals(algorithm.getTotalCost(solution),395);
+        smallIndividual.setSolution(solution);
+        Assert.assertEquals(smallIndividual.getFitness(),395);
     }
 
 
     @Test
     public void testRandomSearch1(){
-        RandomSearch randomSearch = new RandomSearch(smallDataModel);
+        RandomSearch randomSearch = new RandomSearch(smallIndividual);
         int minTotalCost = randomSearch.minTotalCost(1000);
         System.out.println("Actual solution is " + minTotalCost);
         System.out.println("Optimal solution is 395");
@@ -51,15 +45,16 @@ public class Tests {
 
     @Test
     public void testRandomSearch2(){
-        RandomSearch randomSearch = new RandomSearch(dataModel);
+        RandomSearch randomSearch = new RandomSearch(individual);
         System.out.println("Actual solution is " + randomSearch.minTotalCost(1000));
         System.out.println("Optimal solution is 1160");
     }
 
     @Test
     public void testGreedyAlgorithm(){
-        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(dataModel);
-        System.out.println("Actual solution is " + greedyAlgorithm.minTotalCost(1));
+        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(individual);
+        individual.setSolution(greedyAlgorithm.solution());
+        System.out.println("Actual solution is " + individual.getFitness());
         System.out.println("Optimal solution is 1160");
     }
 }

@@ -1,7 +1,7 @@
 package app.utils;
 
 
-import app.DataModel;
+import app.Individual;
 
 import java.io.*;
 import java.util.*;
@@ -13,32 +13,32 @@ public class DataReader {
     private static final String dataPath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/data.txt";
     private static final String testDatePath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/test-data.txt";
 
-    private static List<DataModel> models;
+    private static List<Individual> models;
 
     private DataReader() { }
 
 
-    public static List<DataModel> getModels(boolean isTest) {
+    public static List<Individual> getModels(boolean isTest) {
         if (models == null){
             models = getModelsFromData(isTest);
         }
         return models;
     }
 
-    public static List<DataModel> getModels() {
+    public static List<Individual> getModels() {
         return getModels(false);
     }
 
 
-    private static List<DataModel> getModelsFromData(){
+    private static List<Individual> getModelsFromData(){
         return getModelsFromData(false);
     }
 
     /**
-     * @return Map<n   ,       DataModel> where n in number of locations
+     * @return Map<n   ,       Individual> where n in number of locations
      */
-    private static List<DataModel> getModelsFromData(boolean isTest ) {
-        List<DataModel> dataModels = new ArrayList<>();
+    private static List<Individual> getModelsFromData(boolean isTest ) {
+        List<Individual> individuals = new ArrayList<>();
         int numberOfLocations;
         String path;
         if (isTest) {
@@ -54,8 +54,8 @@ public class DataReader {
 
             while (scanner.hasNextInt()) {
                 numberOfLocations = scanner.nextInt();
-                DataModel dataModel = new DataModel();
-                dataModel.setNumberOfLocations(numberOfLocations);
+                Individual individual = new Individual();
+                individual.setNumberOfLocations(numberOfLocations);
                 int[][] flowMatrix = new int[numberOfLocations][numberOfLocations];
                 int[][] distanceMatrix = new int[numberOfLocations][numberOfLocations];
                 for (int i = 0; i < numberOfLocations; i++) {
@@ -70,8 +70,8 @@ public class DataReader {
                         distanceMatrix[i][j] = scanner.nextInt();
                     }
                 }
-                dataModel.setFlowMatrix(flowMatrix).setDistanceMatrix(distanceMatrix);
-                dataModels.add(dataModel);
+                individual.setFlowMatrix(flowMatrix).setDistanceMatrix(distanceMatrix);
+                individuals.add(individual);
             }
             scanner.close();
             bufferedReader.close();
@@ -86,7 +86,7 @@ public class DataReader {
                             + path + "'");
         }
 
-        return dataModels;
+        return individuals;
     }
 
 

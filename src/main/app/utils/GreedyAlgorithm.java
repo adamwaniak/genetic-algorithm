@@ -1,17 +1,23 @@
-package app;
+package app.utils;
 
+
+import app.Individual;
 
 import java.util.List;
 
-public class GreedyAlgorithm  extends Algorithm {
+import static app.utils.ListUtils.getFilledList;
 
-    public GreedyAlgorithm(DataModel dataModel) {
-        super(dataModel);
+public class GreedyAlgorithm {
+
+    private Individual individual;
+
+    public GreedyAlgorithm(Individual individual) {
+        this.individual = individual;
     }
 
 
     public int[] solution() {
-        int n = dataModel.getNumberOfLocations();
+        int n = individual.getNumberOfLocations();
         int[] result = new int[n];
         List<Integer> factories = getFilledList(n);
         result[0] = factories.get(0);
@@ -23,7 +29,7 @@ public class GreedyAlgorithm  extends Algorithm {
         for (int i = 0; i < n-1; i++) {
             minCost = Integer.MAX_VALUE;
             for(int j : factories){
-                if ((cost = getCostBetweenTwoFacilities(i,i+1,result[i],j)) < minCost){
+                if ((cost = individual.getCostBetweenTwoFacilities(i,i+1,result[i],j)) < minCost){
                     bestFactory = j;
                     minCost = cost;
                 }
