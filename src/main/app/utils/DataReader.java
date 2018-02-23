@@ -8,20 +8,36 @@ import java.util.*;
 
 
 public class DataReader {
-    private static final String dataPath = "C:\\Users\\adam\\IdeaProjects\\genetic-algorithm\\src\\resources\\data.txt";
-    private static final String testDatePath = "C:\\Users\\adam\\IdeaProjects\\genetic-algorithm\\src\\resources\\test-data.txt";
 
-    private DataReader() {
+    //Linux
+    private static final String dataPath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/data.txt";
+    private static final String testDatePath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/test-data.txt";
+
+    private static List<DataModel> models;
+
+    private DataReader() { }
+
+
+    public static List<DataModel> getModels(boolean isTest) {
+        if (models == null){
+            models = getModelsFromData(isTest);
+        }
+        return models;
     }
 
-    public static List<DataModel> getModelsFromData(){
+    public static List<DataModel> getModels() {
+        return getModels(false);
+    }
+
+
+    private static List<DataModel> getModelsFromData(){
         return getModelsFromData(false);
     }
 
     /**
      * @return Map<n   ,       DataModel> where n in number of locations
      */
-    public static List<DataModel> getModelsFromData(boolean isTest ) {
+    private static List<DataModel> getModelsFromData(boolean isTest ) {
         List<DataModel> dataModels = new ArrayList<>();
         int numberOfLocations;
         String path;

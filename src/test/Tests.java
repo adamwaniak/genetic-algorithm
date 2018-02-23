@@ -10,8 +10,8 @@ import java.util.Arrays;
 
 public class Tests {
 
-    private DataModel smallDataModel = DataReader.getModelsFromData(true).get(0);
-    private DataModel dataModel = DataReader.getModelsFromData(true).get(1);
+    private DataModel smallDataModel = DataReader.getModels(true).get(0);
+    private DataModel dataModel = DataReader.getModels(true).get(1);
 
 
     @Test
