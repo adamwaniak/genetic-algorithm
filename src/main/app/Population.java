@@ -6,35 +6,52 @@ import java.util.ArrayList;
 
 public class Population {
     private ArrayList<Individual> individuals;
-    private int popSize;
-    private int tournamentSize;
 
 
-    public Population(int popSize, Individual individual) {
-        RandomSearch randomSearch = new RandomSearch(individual);
+    public Population() {
+        individuals = new ArrayList<>();
+    }
+
+    public void init(Individual originIndividual, int popSize) {
+        RandomSearch randomSearch = new RandomSearch(originIndividual);
 
         for (int i = 0; i < popSize; i++) {
-            Individual modelToAdd = new Individual().setDistanceMatrix(individual.getDistanceMatrix()).setFlowMatrix(individual.getFlowMatrix())
-                    .setNumberOfLocations(individual.getNumberOfLocations());
+            Individual modelToAdd = new Individual(originIndividual);
             modelToAdd.setSolution(randomSearch.solution());
             individuals.add(modelToAdd);
         }
     }
 
 
-
-    public Individual getFittest(){
+    public Individual getFittest() {
         Individual fittest = individuals.get(0);
-        for (Individual indivudual: individuals){
-            if (fittest.getFitness() > indivudual.getFitness()){
+        for (Individual indivudual : individuals) {
+            if (fittest.getFitness() > indivudual.getFitness()) {
                 fittest = indivudual;
             }
         }
         return fittest;
     }
 
+    public ArrayList<Individual> getIndividuals() {
+        return individuals;
+    }
+
+    public void setIndividuals(ArrayList<Individual> individuals) {
+        this.individuals = individuals;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Individual individual: individuals){
+            stringBuilder.append(individual.toString());
+        }
 
 
-
-
+        return "Population{" +
+                "individuals=" + stringBuilder.toString() +
+                '}';
+    }
 }

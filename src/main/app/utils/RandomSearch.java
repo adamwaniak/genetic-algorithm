@@ -24,12 +24,12 @@ public class RandomSearch {
             int[] solution = solution();
             individual.setSolution(solution);
             totalCost = individual.getFitness();
-            System.out.println("Calculated total cost: " + String.valueOf(totalCost));
+            System.out.println("Calculated total cost: " + String.valueOf(totalCost*2));
             if (totalCost < minTotalCost) {
                 minTotalCost = totalCost;
             }
         }
-        System.out.println("Minimal total cost: " + String.valueOf(minTotalCost));
+        System.out.println("Minimal total cost: " + String.valueOf(minTotalCost*2));
         return minTotalCost;
     }
 

@@ -10,8 +10,11 @@ import java.util.*;
 public class DataReader {
 
     //Linux
-    private static final String dataPath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/data.txt";
-    private static final String testDatePath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/test-data.txt";
+//    private static final String dataPath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/data.txt";
+//    private static final String testDatePath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/test-data.txt";
+    //Windows
+    private static final String dataPath = "C:\\Users\\adam\\IdeaProjects\\genetic-algorithm\\src\\resources\\data.txt";
+    private static final String testDatePath = "C:\\Users\\adam\\IdeaProjects\\genetic-algorithm\\src\\resources\\test-data.txt";
 
     private static List<Individual> models;
 
