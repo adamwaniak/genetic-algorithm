@@ -4,10 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListUtils {
-    public static List<Integer> getFilledList(int size) {
-        List<Integer> result = new ArrayList<>(size);
+    public static ArrayList<Integer> getFilledList(int size) {
+        ArrayList<Integer> result = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
             result.add(i);
+        }
+        return result;
+    }
+
+    public static ArrayList<Integer> getFilledListWithZeroes(int size) {
+        ArrayList<Integer> result = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            result.add(0);
+        }
+        return result;
+    }
+
+    public static ArrayList<Integer> getFilledListWithMinusOne(int size) {
+        ArrayList<Integer> result = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            result.add(-1);
         }
         return result;
     }

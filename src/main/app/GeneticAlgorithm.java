@@ -3,7 +3,8 @@ package app;
 import app.utils.ListUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,12 +37,12 @@ public class GeneticAlgorithm {
     public void run() {
         population.init(originIndividual, popSize);
         while (generationCount < maxGenerationCount) {
-            System.out.println("Actual best individual: " + population.getFittest().getFitness()*2);
+            System.out.println("Actual best individual: " + population.getFittest().getFitness() * 2);
             population = evolvePopulation(population);
             generationCount++;
         }
-        System.out.println("Best individual in population: " + population.getFittest().getFitness()*2);
-        System.out.println("Solution: " + Arrays.toString(population.getFittest().getSolution()));
+        System.out.println("Best individual in population: " + population.getFittest().getFitness() * 2);
+        System.out.println("Solution: " + population.getFittest().getSolution().toString());
     }
 
 
@@ -51,7 +52,7 @@ public class GeneticAlgorithm {
             Individual indiv1 = tournamentSelection(population);
             Individual indiv2 = tournamentSelection(population);
             Individual newIndiv = crossover(indiv1, indiv2);
-//            mutate(newIndiv);
+            mutate(newIndiv);
             newPopulation.getIndividuals().add(i, newIndiv);
         }
         return newPopulation;
@@ -70,27 +71,58 @@ public class GeneticAlgorithm {
     }
 
     private Individual crossover(Individual indiv1, Individual indiv2) {
-        Individual newIndiv;
-        newIndiv = indiv1.getFitness() > indiv2.getFitness() ?  new Individual(indiv1) :  new Individual(indiv2);
-        Individual worseIndiv = indiv1.getFitness() < indiv2.getFitness() ?  indiv1 :  indiv2;
-        for (int i = 0; i < newIndiv.getNumberOfLocations(); i++) {
-            if(indiv1.getSingleLocation(i)!=indiv2.getSingleLocation(i)){
-                if (Math.random() <= crossoverRate) {
-                    newIndiv.setSingleLocation(i, worseIndiv.getSingleLocation(i));
-                }
+        int size = indiv1.getSize();
+        int start = getRandomInt(0, size);
+        int end = getRandomInt(start, size);
+        ArrayList<Integer> child = ListUtils.getFilledListWithMinusOne(size);
+        ArrayList<Integer> parent;
+
+        if (Math.random() > 0.5) {
+            for (int i = start;i<end;i++){
+                child.set(i,indiv1.getSolution().get(i));
             }
+            parent = indiv2.getSolution();
+
+        }else {
+            for (int i = start;i<end;i++){
+                child.set(i,indiv2.getSolution().get(i));
+            }
+            parent = indiv1.getSolution();
+        }
+        int currentLocationIndex = 0;
+        int currentLocationInParent = 0;
+
+
+
+
+
+        Individual newIndiv = new Individual(indiv1);
+        newIndiv.setSolution(child);
+        newIndiv.repair();
+        if(child.size()>size || child.size()<size){
+            System.out.println("Start: " + start);
+            System.out.println("End: " + end);
+
+            System.out.println("Indiv1: " + indiv1.getSolution().toString());
+            System.out.println("Indiv2: " + indiv2.getSolution().toString());
+            System.out.println("Parent solution: " + parent.toString());
+
+            System.out.println("Child solution: " + child.toString());
 
         }
-        newIndiv.repair();
         return newIndiv;
     }
 
     private void mutate(Individual indiv) {
         if (Math.random() <= mutationRate) {
-            List<Integer> integerList = ListUtils.getFilledList(indiv.getNumberOfLocations());
+            List<Integer> integerList = ListUtils.getFilledList(indiv.getSize());
             Collections.shuffle(integerList);
             indiv.swapSolutionLocations(integerList.get(0), integerList.get(1));
             mutationCount++;
         }
+    }
+
+    private int getRandomInt(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max);
     }
 }

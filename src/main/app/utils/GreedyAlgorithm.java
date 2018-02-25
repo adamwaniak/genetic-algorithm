@@ -3,6 +3,7 @@ package app.utils;
 
 import app.Individual;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static app.utils.ListUtils.getFilledList;
@@ -16,11 +17,11 @@ public class GreedyAlgorithm {
     }
 
 
-    public int[] solution() {
-        int n = individual.getNumberOfLocations();
-        int[] result = new int[n];
+    public ArrayList<Integer> solution() {
+        int n = individual.getSize();
+        ArrayList<Integer> result = ListUtils.getFilledListWithZeroes(n);
         List<Integer> factories = getFilledList(n);
-        result[0] = factories.get(0);
+        result.set(0, factories.get(0));
         factories.remove(0);
 
         int bestFactory = -1;
@@ -29,13 +30,13 @@ public class GreedyAlgorithm {
         for (int i = 0; i < n-1; i++) {
             minCost = Integer.MAX_VALUE;
             for(int j : factories){
-                if ((cost = individual.getCostBetweenTwoFacilities(i,i+1,result[i],j)) < minCost){
+                if ((cost = individual.getCostBetweenTwoFacilities(i,i+1, result.get(i),j)) < minCost){
                     bestFactory = j;
                     minCost = cost;
                 }
             }
             factories.remove((Integer)bestFactory);
-            result[i+1] = bestFactory;
+            result.set(i + 1, bestFactory);
         }
         return result;
     }

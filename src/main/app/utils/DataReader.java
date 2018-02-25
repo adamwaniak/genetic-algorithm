@@ -13,8 +13,8 @@ public class DataReader {
 //    private static final String dataPath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/data.txt";
 //    private static final String testDatePath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/test-data.txt";
     //Windows
-    private static final String dataPath = "C:\\Users\\adam\\IdeaProjects\\genetic-algorithm\\src\\resources\\data.txt";
-    private static final String testDatePath = "C:\\Users\\adam\\IdeaProjects\\genetic-algorithm\\src\\resources\\test-data.txt";
+    private static final String dataPath = "C:\\Users\\adamw\\IdeaProjects\\genetic-algorithm\\src\\resources\\data.txt";
+    private static final String testDatePath = "C:\\Users\\adamw\\IdeaProjects\\genetic-algorithm\\src\\resources\\test-data.txt";
 
     private static List<Individual> models;
 
@@ -58,7 +58,7 @@ public class DataReader {
             while (scanner.hasNextInt()) {
                 numberOfLocations = scanner.nextInt();
                 Individual individual = new Individual();
-                individual.setNumberOfLocations(numberOfLocations);
+                individual.setSize(numberOfLocations);
                 int[][] flowMatrix = new int[numberOfLocations][numberOfLocations];
                 int[][] distanceMatrix = new int[numberOfLocations][numberOfLocations];
                 for (int i = 0; i < numberOfLocations; i++) {

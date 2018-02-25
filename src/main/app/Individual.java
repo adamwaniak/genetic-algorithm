@@ -3,34 +3,33 @@ package app;
 import app.utils.ListUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Individual {
-    private int numberOfLocations;
+    private int size;
     private int[][] flowMatrix;
     private int[][] distanceMatrix;
-    private int[] solution;
+    private ArrayList<Integer> solution;
 
 
     public Individual() {
     }
 
     public Individual(Individual individual) {
-        this.numberOfLocations = individual.numberOfLocations;
+        this.size = individual.size;
         this.flowMatrix = individual.flowMatrix;
         this.distanceMatrix = individual.distanceMatrix;
         this.solution = individual.solution;
     }
 
 
-    public int getNumberOfLocations() {
-        return numberOfLocations;
+    public int getSize() {
+        return size;
     }
 
 
-    public Individual setNumberOfLocations(int numberOfLocations) {
-        this.numberOfLocations = numberOfLocations;
+    public Individual setSize(int size) {
+        this.size = size;
         return this;
     }
 
@@ -57,12 +56,12 @@ public class Individual {
     }
 
 
-    public int[] getSolution() {
+    public ArrayList<Integer> getSolution() {
         return solution;
     }
 
 
-    public Individual setSolution(int[] solution) {
+    public Individual setSolution(ArrayList<Integer> solution) {
         this.solution = solution;
         return this;
     }
@@ -74,13 +73,13 @@ public class Individual {
      * @return total cost of given solution
      */
     public int getFitness() {
-        if (solution.length != getNumberOfLocations()) {
+        if (solution.size() != getSize()) {
             return -1;
         }
         int sum = 0;
-        for (int i = 0; i < getNumberOfLocations(); i++) {
-            for (int j = i + 1; j < getNumberOfLocations(); j++) {
-                sum += getCostBetweenTwoFacilities(i, j, solution[i], solution[j]);
+        for (int i = 0; i < getSize(); i++) {
+            for (int j = i + 1; j < getSize(); j++) {
+                sum += getCostBetweenTwoFacilities(i, j, solution.get(i), solution.get(j));
             }
         }
         return sum;
@@ -92,11 +91,11 @@ public class Individual {
     }
 
     public void setSingleLocation(int factoryIndex, int newLocation) {
-        solution[factoryIndex] = newLocation;
+        solution.set(factoryIndex, newLocation);
     }
 
     public int getSingleLocation(int factoryIndex) {
-        return solution[factoryIndex];
+        return solution.get(factoryIndex);
     }
 
 
@@ -104,25 +103,25 @@ public class Individual {
      * After crossover locations could reapate. Repair method fix it.
      */
     public void repair() {
-        List<Integer> locations = ListUtils.getFilledList(getNumberOfLocations());
+        List<Integer> locations = ListUtils.getFilledList(getSize());
         List<Integer> appeard = new ArrayList<>();
-        for (int i = 0; i < getNumberOfLocations(); i++) {
+        for (int i = 0; i < getSize(); i++) {
             int apperance = 0;
-            for (int j = 0; j < getNumberOfLocations(); j++) {
-                if (locations.get(i) == solution[j]) {
+            for (int j = 0; j < getSize(); j++) {
+                if (locations.get(i) == solution.get(j)) {
                     apperance++;
-                    appeard.add(solution[j]);
+                    appeard.add(solution.get(j));
                     if (apperance > 1) {
-                        solution[j] = -1;
+                        solution.set(j, -1);
                     }
                 }
             }
         }
         locations.removeAll(appeard);
 
-        for (int i = 0; i < getNumberOfLocations(); i++) {
-            if (solution[i] == -1) {
-                solution[i] = locations.get(0);
+        for (int i = 0; i < getSize(); i++) {
+            if (solution.get(i) == -1) {
+                solution.set(i, locations.get(0));
                 locations.remove(0);
             }
         }
@@ -136,6 +135,6 @@ public class Individual {
 
     @Override
     public String toString() {
-        return "Individual{solution: " + Arrays.toString(solution) + "; Total cost: " + getFitness() + "}";
+        return "Individual{solution: " + solution.toString() + "; Total cost: " + getFitness() + "}";
     }
 }

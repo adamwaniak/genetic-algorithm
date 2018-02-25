@@ -12,7 +12,7 @@ public class TestGeneticAlgorithm {
 
     @Test
     public void testTournament(){
-        Individual originIndividual = DataReader.getModels(true).get(0);
+        Individual originIndividual = DataReader.getModels().get(0);
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(originIndividual,10,10,0.7,0.05,2);
         Assert.assertNotNull(geneticAlgorithm);
     }
@@ -21,15 +21,15 @@ public class TestGeneticAlgorithm {
 
     @Test
     public void testAlgorithm() {
-        Individual originIndividual = DataReader.getModels().get(4);
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(originIndividual,1000,1000,0.7,0.5,5);
+        Individual originIndividual = DataReader.getModels(true).get(0);
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(originIndividual,100,100,0.7,0.05,5);
         geneticAlgorithm.run();
 
     }
 
     @Test
     public void testRandomSearch2(){
-        Individual originIndividual = DataReader.getModels().get(4);
+        Individual originIndividual = DataReader.getModels(true).get(0);
         RandomSearch randomSearch = new RandomSearch(originIndividual);
         randomSearch.minTotalCost(100);
     }
