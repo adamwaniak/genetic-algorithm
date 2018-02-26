@@ -21,7 +21,7 @@ public class TestGeneticAlgorithm {
 
     @Test
     public void testAlgorithm() {
-        Individual originIndividual = DataReader.getModels(true).get(0);
+        Individual originIndividual = DataReader.getModels().get(4);
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(originIndividual,100,100,0.7,0.05,5);
         geneticAlgorithm.run();
 
@@ -29,7 +29,7 @@ public class TestGeneticAlgorithm {
 
     @Test
     public void testRandomSearch2(){
-        Individual originIndividual = DataReader.getModels(true).get(0);
+        Individual originIndividual = DataReader.getModels().get(4);
         RandomSearch randomSearch = new RandomSearch(originIndividual);
         randomSearch.minTotalCost(100);
     }

@@ -52,11 +52,12 @@ public class GeneticAlgorithm {
             Individual indiv1 = tournamentSelection(population);
             Individual indiv2 = tournamentSelection(population);
             Individual newIndiv = crossover(indiv1, indiv2);
-            mutate(newIndiv);
-            newPopulation.getIndividuals().add(i, newIndiv);
+            if (Math.random() <= mutationRate) {
+                mutate(newIndiv);
+            }
+            newPopulation.getIndividuals().add(newIndiv);
         }
         return newPopulation;
-
     }
 
 
@@ -72,57 +73,62 @@ public class GeneticAlgorithm {
 
     private Individual crossover(Individual indiv1, Individual indiv2) {
         int size = indiv1.getSize();
-        int start = getRandomInt(0, size);
-        int end = getRandomInt(start, size);
+        int pivot = getRandomInt(0, size);
+        Individual newIndiv = new Individual(originIndividual);
         ArrayList<Integer> child = ListUtils.getFilledListWithMinusOne(size);
-        ArrayList<Integer> parent;
-
-        if (Math.random() > 0.5) {
-            for (int i = start;i<end;i++){
-                child.set(i,indiv1.getSolution().get(i));
-            }
-            parent = indiv2.getSolution();
-
-        }else {
-            for (int i = start;i<end;i++){
-                child.set(i,indiv2.getSolution().get(i));
-            }
-            parent = indiv1.getSolution();
+        for (int i = 0; i < pivot; i++) {
+            child.set(i, indiv1.getSolution().get(i));
         }
-        int currentLocationIndex = 0;
-        int currentLocationInParent = 0;
-
-
-
-
-
-        Individual newIndiv = new Individual(indiv1);
+        for (int i = pivot; i < size; i++) {
+            child.set(i, indiv2.getSolution().get(i));
+        }
+        repair(child);
         newIndiv.setSolution(child);
-        newIndiv.repair();
-        if(child.size()>size || child.size()<size){
-            System.out.println("Start: " + start);
-            System.out.println("End: " + end);
 
-            System.out.println("Indiv1: " + indiv1.getSolution().toString());
-            System.out.println("Indiv2: " + indiv2.getSolution().toString());
-            System.out.println("Parent solution: " + parent.toString());
-
-            System.out.println("Child solution: " + child.toString());
-
-        }
         return newIndiv;
     }
 
     private void mutate(Individual indiv) {
-        if (Math.random() <= mutationRate) {
-            List<Integer> integerList = ListUtils.getFilledList(indiv.getSize());
-            Collections.shuffle(integerList);
-            indiv.swapSolutionLocations(integerList.get(0), integerList.get(1));
-            mutationCount++;
+        List<Integer> integerList = ListUtils.getFilledList(indiv.getSize());
+        Collections.shuffle(integerList);
+        indiv.swapSolutionValues(integerList.get(0), integerList.get(1));
+        mutationCount++;
+
+    }
+
+    /**
+     * After crossover locations could reapate. Repair method fix it.
+     */
+    public void repair(ArrayList<Integer> solution) {
+        int size = solution.size();
+        List<Integer> locations = ListUtils.getFilledList(size);
+        List<Integer> appeared = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            int appearance = 0;
+            for (int j = 0; j < size; j++) {
+                if (locations.get(i).equals(solution.get(j))) {
+                    appearance++;
+                    appeared.add(solution.get(j));
+                    if (appearance > 1) {
+                        solution.set(j, -1);
+                    }
+                }
+            }
         }
+        locations.removeAll(appeared);
+
+        for (int i = 0; i < size; i++) {
+            if (solution.get(i) == -1) {
+                solution.set(i, locations.get(0));
+                locations.remove(0);
+            }
+        }
+
     }
 
     private int getRandomInt(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
+
+
 }
