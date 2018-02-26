@@ -18,7 +18,7 @@ public class RandomSearch {
         this.individual = individual;
     }
 
-    public int minTotalCost(int times) {
+    public int run(int times) {
         int minTotalCost = Integer.MAX_VALUE;
         int totalCost;
         for (int i = 0; i < times; i++) {

@@ -45,7 +45,7 @@ public class Tests {
     @Test
     public void testRandomSearch1(){
         RandomSearch randomSearch = new RandomSearch(smallIndividual);
-        int minTotalCost = randomSearch.minTotalCost(1000);
+        int minTotalCost = randomSearch.run(1000);
         System.out.println("Actual solution is " + minTotalCost);
         System.out.println("Optimal solution is 395");
 
@@ -54,7 +54,7 @@ public class Tests {
     @Test
     public void testRandomSearch2(){
         RandomSearch randomSearch = new RandomSearch(individual);
-        System.out.println("Actual solution is " + randomSearch.minTotalCost(1000));
+        System.out.println("Actual solution is " + randomSearch.run(1000));
         System.out.println("Optimal solution is 1160");
     }
 

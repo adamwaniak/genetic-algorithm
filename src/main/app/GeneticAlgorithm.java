@@ -1,52 +1,60 @@
 package app;
 
 import app.utils.ListUtils;
+import app.utils.Result;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Collections;
 import java.util.List;
 
 public class GeneticAlgorithm {
 
-    private Individual originIndividual;
-    private int popSize;
-    private int maxFitness;
-    private Population population;
-    private int generationCount;
-    private int maxGenerationCount;
-    private int tournamentSize;
-    private double crossoverRate;
-    private double mutationRate;
-    private int mutationCount;
+    private static Individual originIndividual;
+    private static int popSize;
+    private static Population population;
+    private static int generationCount;
+    private static int maxGenerationCount;
+    private static int tournamentSize;
+    private static double crossoverRate;
+    private static double mutationRate;
+    private static int mutationCount;
 
 
-    public GeneticAlgorithm(Individual originIndividual, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, int tournamentSize) {
-        population = new Population();
-        maxFitness = Integer.MAX_VALUE;
-        generationCount = 0;
-        this.originIndividual = originIndividual;
-        this.popSize = popSize;
-        this.maxGenerationCount = maxGenerationCount;
-        this.crossoverRate = crossoverRate;
-        this.mutationRate = mutationRate;
-        this.tournamentSize = tournamentSize;
+    public GeneticAlgorithm() {
     }
 
-    public void run() {
-        population.init(originIndividual, popSize);
+
+    public static List<Result> run(Individual originIndividual, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, int tournamentSize) {
+        init(originIndividual, popSize, maxGenerationCount, crossoverRate, mutationRate, tournamentSize);
+        List<Result> results = new LinkedList<>();
+        results.add(new Result(population, 0));
         while (generationCount < maxGenerationCount) {
             System.out.println("Actual best individual: " + population.getFittest().getFitness() * 2);
             population = evolvePopulation(population);
             generationCount++;
+            results.add(new Result(population, generationCount));
         }
         System.out.println("Best individual in population: " + population.getFittest().getFitness() * 2);
         System.out.println("Solution: " + population.getFittest().getSolution().toString());
+        return results;
     }
 
+    private static void init(Individual originIndividual, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, int tournamentSize) {
+        population = new Population();
+        population.randomInit(originIndividual, popSize);
+        generationCount = 0;
+        GeneticAlgorithm.originIndividual = originIndividual;
+        GeneticAlgorithm.popSize = popSize;
+        GeneticAlgorithm.maxGenerationCount = maxGenerationCount;
+        GeneticAlgorithm.crossoverRate = crossoverRate;
+        GeneticAlgorithm.mutationRate = mutationRate;
+        GeneticAlgorithm.tournamentSize = tournamentSize;
+    }
 
-    private Population evolvePopulation(@NotNull Population population) {
+    private static Population evolvePopulation(@NotNull Population population) {
         Population newPopulation = new Population();
         for (int i = 0; i < population.getIndividuals().size(); i++) {
             Individual indiv1 = tournamentSelection(population);
@@ -61,7 +69,7 @@ public class GeneticAlgorithm {
     }
 
 
-    private Individual tournamentSelection(@NotNull Population population) {
+    private static Individual tournamentSelection(@NotNull Population population) {
         Population tournament = new Population();
         for (int i = 0; i < tournamentSize; i++) {
             int randomId = (int) (Math.random() * population.getIndividuals().size());
@@ -71,7 +79,7 @@ public class GeneticAlgorithm {
         return fittest;
     }
 
-    private Individual crossover(Individual indiv1, Individual indiv2) {
+    private static Individual crossover(Individual indiv1, Individual indiv2) {
         int size = indiv1.getSize();
         int pivot = getRandomInt(0, size);
         Individual newIndiv = new Individual(originIndividual);
@@ -88,7 +96,7 @@ public class GeneticAlgorithm {
         return newIndiv;
     }
 
-    private void mutate(Individual indiv) {
+    private static void mutate(Individual indiv) {
         List<Integer> integerList = ListUtils.getFilledList(indiv.getSize());
         Collections.shuffle(integerList);
         indiv.swapSolutionValues(integerList.get(0), integerList.get(1));
@@ -99,7 +107,7 @@ public class GeneticAlgorithm {
     /**
      * After crossover locations could reapate. Repair method fix it.
      */
-    public void repair(ArrayList<Integer> solution) {
+    private static void repair(ArrayList<Integer> solution) {
         int size = solution.size();
         List<Integer> locations = ListUtils.getFilledList(size);
         List<Integer> appeared = new ArrayList<>();
@@ -126,7 +134,7 @@ public class GeneticAlgorithm {
 
     }
 
-    private int getRandomInt(int min, int max) {
+    private static int getRandomInt(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 

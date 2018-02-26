@@ -5,15 +5,13 @@ import app.utils.RandomSearch;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 public class TestGeneticAlgorithm {
 
 
     @Test
     public void testTournament(){
         Individual originIndividual = DataReader.getModels().get(0);
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(originIndividual,10,10,0.7,0.05,2);
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
         Assert.assertNotNull(geneticAlgorithm);
     }
 
@@ -21,9 +19,9 @@ public class TestGeneticAlgorithm {
 
     @Test
     public void testAlgorithm() {
-        Individual originIndividual = DataReader.getModels().get(4);
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(originIndividual,100,100,0.7,0.05,5);
-        geneticAlgorithm.run();
+        Individual originIndividual = DataReader.getModels().get(0);
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+        geneticAlgorithm.run(originIndividual,100,100,0.7,0.05,5);
 
     }
 
@@ -31,6 +29,6 @@ public class TestGeneticAlgorithm {
     public void testRandomSearch2(){
         Individual originIndividual = DataReader.getModels().get(4);
         RandomSearch randomSearch = new RandomSearch(originIndividual);
-        randomSearch.minTotalCost(100);
+        randomSearch.run(100);
     }
 }
