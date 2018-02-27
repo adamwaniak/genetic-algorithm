@@ -2,7 +2,6 @@ package app;
 
 import app.utils.ListUtils;
 import app.utils.Result;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -54,7 +53,7 @@ public class GeneticAlgorithm {
         GeneticAlgorithm.tournamentSize = tournamentSize;
     }
 
-    private static Population evolvePopulation(@NotNull Population population) {
+    private static Population evolvePopulation( Population population) {
         Population newPopulation = new Population();
         for (int i = 0; i < population.getIndividuals().size(); i++) {
             Individual indiv1 = tournamentSelection(population);
@@ -69,7 +68,7 @@ public class GeneticAlgorithm {
     }
 
 
-    private static Individual tournamentSelection(@NotNull Population population) {
+    private static Individual tournamentSelection( Population population) {
         Population tournament = new Population();
         for (int i = 0; i < tournamentSize; i++) {
             int randomId = (int) (Math.random() * population.getIndividuals().size());

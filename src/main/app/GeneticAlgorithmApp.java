@@ -21,10 +21,18 @@ public class GeneticAlgorithmApp {
         List<Individual> models = DataReader.getModels();
 
         for (Individual model: models){
+            //Genetic algorithm
             List<Result> results = GeneticAlgorithm.run(model,popSize,generationSize,crossoverRate,mutationRate,tournamentSize);
             String fileName = "genetic_algorithm_result_" + model.getSize() + "n";
             DataWriter.writeAdditionalInformation(popSize,generationSize,crossoverRate,mutationRate,tournamentSize,fileName);
             DataWriter.writeData(results, fileName);
+
+
+            //Random
+
+
         }
+
+
     }
 }
