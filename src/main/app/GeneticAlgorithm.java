@@ -31,12 +31,12 @@ public class GeneticAlgorithm {
         List<Result> results = new LinkedList<>();
         results.add(new Result(population, 0));
         while (generationCount < maxGenerationCount) {
-            System.out.println("Actual best individual: " + population.getFittest().getFitness() * 2);
+            System.out.println("Actual best individual: " + population.getFittest().getFitness());
             population = evolvePopulation(population);
             generationCount++;
             results.add(new Result(population, generationCount));
         }
-        System.out.println("Best individual in population: " + population.getFittest().getFitness() * 2);
+        System.out.println("Best individual in population: " + population.getFittest().getFitness());
         System.out.println("Solution: " + population.getFittest().getSolution().toString());
         return results;
     }
@@ -56,9 +56,15 @@ public class GeneticAlgorithm {
     private static Population evolvePopulation( Population population) {
         Population newPopulation = new Population();
         for (int i = 0; i < population.getIndividuals().size(); i++) {
-            Individual indiv1 = tournamentSelection(population);
-            Individual indiv2 = tournamentSelection(population);
-            Individual newIndiv = crossover(indiv1, indiv2);
+            int randomId = (int) (Math.random() * population.getIndividuals().size());
+            Individual newIndiv = population.getIndividuals().get(randomId);
+
+            if (Math.random() <= crossoverRate){
+                Individual indiv1 = tournamentSelection(population);
+                Individual indiv2 = tournamentSelection(population);
+                newIndiv = crossover(indiv1, indiv2);
+            }
+
             if (Math.random() <= mutationRate) {
                 mutate(newIndiv);
             }
@@ -74,8 +80,7 @@ public class GeneticAlgorithm {
             int randomId = (int) (Math.random() * population.getIndividuals().size());
             tournament.getIndividuals().add(i, population.getIndividuals().get(randomId));
         }
-        Individual fittest = tournament.getFittest();
-        return fittest;
+        return tournament.getFittest();
     }
 
     private static Individual crossover(Individual indiv1, Individual indiv2) {
@@ -100,7 +105,6 @@ public class GeneticAlgorithm {
         Collections.shuffle(integerList);
         indiv.swapSolutionValues(integerList.get(0), integerList.get(1));
         mutationCount++;
-
     }
 
     /**

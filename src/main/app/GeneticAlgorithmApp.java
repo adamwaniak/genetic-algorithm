@@ -2,6 +2,7 @@ package app;
 
 import app.utils.DataReader;
 import app.utils.DataWriter;
+import app.utils.RandomSearch;
 import app.utils.Result;
 
 import java.util.Arrays;
@@ -32,6 +33,8 @@ public class GeneticAlgorithmApp {
 
 
         }
+
+
 
 
     }

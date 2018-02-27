@@ -32,7 +32,7 @@ public class Individual {
         }
         int sum = 0;
         for (int i = 0; i < getSize(); i++) {
-            for (int j = i + 1; j < getSize(); j++) {
+            for (int j = 0; j < getSize(); j++) {
                 sum += getCostBetweenTwoFacilities(i, j, solution.get(i), solution.get(j));
             }
         }

@@ -30,6 +30,7 @@ public class GreedyAlgorithm {
         for (int i = 0; i < n-1; i++) {
             minCost = Integer.MAX_VALUE;
             for(int j : factories){
+                //first factory, second factory, first location, second location
                 if ((cost = individual.getCostBetweenTwoFacilities(i,i+1, result.get(i),j)) < minCost){
                     bestFactory = j;
                     minCost = cost;
