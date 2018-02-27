@@ -19,9 +19,9 @@ public class TestGeneticAlgorithm {
 
     @Test
     public void testAlgorithm() {
-        Individual originIndividual = DataReader.getModels().get(0);
+        Individual originIndividual = DataReader.getModels().get(4);
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
-        geneticAlgorithm.run(originIndividual,100,100,1,1,5);
+        geneticAlgorithm.run(originIndividual,100,100,0.8,0.5,5);
 
     }
 

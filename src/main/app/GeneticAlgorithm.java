@@ -56,6 +56,7 @@ public class GeneticAlgorithm {
     private static Population evolvePopulation( Population population) {
         Population newPopulation = new Population();
         for (int i = 0; i < population.getIndividuals().size(); i++) {
+
             int randomId = (int) (Math.random() * population.getIndividuals().size());
             Individual newIndiv = population.getIndividuals().get(randomId);
 
