@@ -77,7 +77,7 @@ public class GeneticAlgorithm {
     }
 
 
-    private static Individual tournamentSelection( Population population) {
+    private static Individual tournamentSelection(Population population) {
         Population tournament = new Population();
         for (int i = 0; i < tournamentSize; i++) {
             int randomId = (int) (Math.random() * population.getIndividuals().size());
@@ -85,6 +85,16 @@ public class GeneticAlgorithm {
         }
         return tournament.getFittest();
     }
+
+    private static Individual rouletteSelection(Population population){
+        return null;
+    }
+
+    private static void rouletteInit(){
+
+    }
+
+
 
     private static Individual crossover(Individual indiv1, Individual indiv2) {
 

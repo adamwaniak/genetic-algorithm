@@ -15,7 +15,6 @@ public class Tests {
     private Model smallModel = DataReader.getModels(true).get(0);
     private Model model = DataReader.getModels(true).get(1);
 
-
     @Test
     public void testDataReader(){
         Assert.assertEquals(DataReader.getModels(true).size(),2);
