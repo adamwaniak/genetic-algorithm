@@ -2,6 +2,7 @@ package app.utils;
 
 
 import app.Individual;
+import app.Model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,11 +11,10 @@ import java.util.List;
 
 public class RandomSearch {
 
-    private Individual individual;
 
-    public RandomSearch(Individual individual) {
-
-        this.individual = individual;
+    private static Individual individual;
+    public RandomSearch(Model model) {
+        individual = new Individual(model);
     }
 
     public int run(int times) {
@@ -22,7 +22,7 @@ public class RandomSearch {
         int totalCost;
         ArrayList<Integer> bestSolution = new ArrayList<>();
         for (int i = 0; i < times; i++) {
-            ArrayList<Integer> solution = solution();
+            ArrayList<Integer> solution = getSolution();
             individual.setSolution(solution);
             totalCost = individual.getFitness();
             System.out.println("Calculated total cost: " + String.valueOf(totalCost));
@@ -39,8 +39,8 @@ public class RandomSearch {
 
 
 
-    public ArrayList<Integer> solution() {
-        int n = individual.getSize();
+    public ArrayList<Integer> getSolution() {
+        int n = individual.getModel().getSize();
         ArrayList<Integer> result = ListUtils.getFilledListWithZeroes(n);
         List<Integer> factories = ListUtils.getFilledList(n);
         Collections.shuffle(factories);

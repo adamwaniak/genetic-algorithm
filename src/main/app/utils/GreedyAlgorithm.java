@@ -2,6 +2,7 @@ package app.utils;
 
 
 import app.Individual;
+import app.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +11,15 @@ import static app.utils.ListUtils.getFilledList;
 
 public class GreedyAlgorithm {
 
-    private Individual individual;
+    private static Individual individual;
 
-    public GreedyAlgorithm(Individual individual) {
-        this.individual = individual;
+    private static void init(Model model) {
+        GreedyAlgorithm.individual = new Individual(model);
     }
 
-
-    public ArrayList<Integer> solution() {
-        int n = individual.getSize();
+    public static ArrayList<Integer> getSolution(Model model) {
+        init(model);
+        int n = individual.getModel().getSize();
         ArrayList<Integer> result = ListUtils.getFilledListWithZeroes(n);
         List<Integer> factories = getFilledList(n);
         result.set(0, factories.get(0));

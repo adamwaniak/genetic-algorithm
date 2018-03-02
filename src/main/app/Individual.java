@@ -6,33 +6,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Individual {
-    private int size;
-    private int[][] flowMatrix;
-    private int[][] distanceMatrix;
+
     /**
      * Solution is a list; indices are factories and values are places
      */
     private ArrayList<Integer> solution;
+    private Model model;
 
-
-    public Individual() {
+    public Individual(Model model) {
+        this.model = model;
     }
 
     public Individual(Individual individual) {
-        this.size = individual.size;
-        this.flowMatrix = individual.flowMatrix;
-        this.distanceMatrix = individual.distanceMatrix;
+        this.model = individual.model;
         this.solution = individual.solution;
     }
 
 
     public int getFitness() {
-        if (solution.size() != getSize()) {
+        if (solution.size() != model.getSize()) {
+            System.out.println("INDIVIDUAL GET FITNESS ERROR");
             return -1;
         }
         int sum = 0;
-        for (int i = 0; i < getSize(); i++) {
-            for (int j = 0; j < getSize(); j++) {
+        for (int i = 0; i < model.getSize(); i++) {
+            for (int j = 0; j < model.getSize(); j++) {
                 sum += getCostBetweenTwoFacilities(i, j, solution.get(i), solution.get(j));
             }
         }
@@ -41,7 +39,7 @@ public class Individual {
 
 
     public int getCostBetweenTwoFacilities(int firstFactory, int secondFactory, int firstLocation, int secondLocation) {
-        return getFlowMatrix()[firstFactory][secondFactory] * getDistanceMatrix()[firstLocation][secondLocation];
+        return model.getFlowMatrix()[firstFactory][secondFactory] * model.getDistanceMatrix()[firstLocation][secondLocation];
     }
 
 
@@ -54,42 +52,17 @@ public class Individual {
 
     @Override
     public String toString() {
-        return "Individual{solution: " + solution.toString() + "; Total cost: " + getFitness() + "}";
+        return "Individual{getSolution: " + solution.toString() + "; Total cost: " + getFitness() + "}";
     }
 
 
-    public int getSize() {
-        return size;
+    public Model getModel() {
+        return model;
     }
 
-
-    public Individual setSize(int size) {
-        this.size = size;
-        return this;
+    public void setModel(Model model) {
+        this.model = model;
     }
-
-
-    public int[][] getFlowMatrix() {
-        return flowMatrix;
-    }
-
-
-    public Individual setFlowMatrix(int[][] flowMatrix) {
-        this.flowMatrix = flowMatrix;
-        return this;
-    }
-
-
-    public int[][] getDistanceMatrix() {
-        return distanceMatrix;
-    }
-
-
-    public Individual setDistanceMatrix(int[][] distanceMatrix) {
-        this.distanceMatrix = distanceMatrix;
-        return this;
-    }
-
 
     public ArrayList<Integer> getSolution() {
         return solution;

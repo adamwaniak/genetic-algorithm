@@ -19,9 +19,9 @@ public class GeneticAlgorithmApp {
         final double mutationRate = 0.05;
         final int tournamentSize = 5;
 
-        List<Individual> models = DataReader.getModels();
+        List<Model> models = DataReader.getModels();
 
-        for (Individual model: models){
+        for (Model model: models){
             //Genetic algorithm
             List<Result> results = GeneticAlgorithm.run(model,popSize,generationSize,crossoverRate,mutationRate,tournamentSize);
             String fileName = "genetic_algorithm_result_" + model.getSize() + "n";

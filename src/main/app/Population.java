@@ -12,13 +12,14 @@ public class Population {
         individuals = new ArrayList<>();
     }
 
-    public void randomInit(Individual originIndividual, int popSize) {
-        RandomSearch randomSearch = new RandomSearch(originIndividual);
+    public void randomInit(Model model, int popSize) {
+
 
         for (int i = 0; i < popSize; i++) {
-            Individual modelToAdd = new Individual(originIndividual);
-            modelToAdd.setSolution(randomSearch.solution());
-            individuals.add(modelToAdd);
+            Individual individual = new Individual(model);
+            RandomSearch randomSearch = new RandomSearch(model);
+            individual.setSolution(randomSearch.getSolution());
+            individuals.add(individual);
         }
     }
 
@@ -50,6 +51,14 @@ public class Population {
         }
         fitness = fitness/individuals.size();
         return fitness;
+    }
+
+    public int getSumFitness(){
+        int result = 0;
+        for(Individual individual: individuals){
+            result+= individual.getFitness();
+        }
+        return result;
     }
 
     public ArrayList<Individual> getIndividuals() {

@@ -11,7 +11,8 @@ import java.util.List;
 
 public class GeneticAlgorithm {
 
-    private static Individual originIndividual;
+    private static int solutionSize;
+    private static Model model;
     private static int popSize;
     private static Population population;
     private static int generationCount;
@@ -26,7 +27,7 @@ public class GeneticAlgorithm {
     }
 
 
-    public static List<Result> run(Individual originIndividual, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, int tournamentSize) {
+    public static List<Result> run(Model originIndividual, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, int tournamentSize) {
         init(originIndividual, popSize, maxGenerationCount, crossoverRate, mutationRate, tournamentSize);
         List<Result> results = new LinkedList<>();
         results.add(new Result(population, 0));
@@ -41,16 +42,17 @@ public class GeneticAlgorithm {
         return results;
     }
 
-    private static void init(Individual originIndividual, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, int tournamentSize) {
+    private static void init(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, int tournamentSize) {
         population = new Population();
-        population.randomInit(originIndividual, popSize);
+        population.randomInit(model, popSize);
         generationCount = 0;
-        GeneticAlgorithm.originIndividual = originIndividual;
+        GeneticAlgorithm.model = model;
         GeneticAlgorithm.popSize = popSize;
         GeneticAlgorithm.maxGenerationCount = maxGenerationCount;
         GeneticAlgorithm.crossoverRate = crossoverRate;
         GeneticAlgorithm.mutationRate = mutationRate;
         GeneticAlgorithm.tournamentSize = tournamentSize;
+        GeneticAlgorithm.solutionSize = model.getSize();
     }
 
     private static Population evolvePopulation( Population population) {
@@ -85,14 +87,14 @@ public class GeneticAlgorithm {
     }
 
     private static Individual crossover(Individual indiv1, Individual indiv2) {
-        int size = indiv1.getSize();
-        int pivot = getRandomInt(0, size);
-        Individual newIndiv = new Individual(originIndividual);
-        ArrayList<Integer> child = ListUtils.getFilledListWithMinusOne(size);
+
+        int pivot = getRandomInt(0, solutionSize);
+        Individual newIndiv = new Individual(model);
+        ArrayList<Integer> child = ListUtils.getFilledListWithMinusOne(solutionSize);
         for (int i = 0; i < pivot; i++) {
             child.set(i, indiv1.getSolution().get(i));
         }
-        for (int i = pivot; i < size; i++) {
+        for (int i = pivot; i < solutionSize; i++) {
             child.set(i, indiv2.getSolution().get(i));
         }
         repair(child);
@@ -102,7 +104,7 @@ public class GeneticAlgorithm {
     }
 
     private static void mutate(Individual indiv) {
-        List<Integer> integerList = ListUtils.getFilledList(indiv.getSize());
+        List<Integer> integerList = ListUtils.getFilledList(solutionSize);
         Collections.shuffle(integerList);
         indiv.swapSolutionValues(integerList.get(0), integerList.get(1));
         mutationCount++;

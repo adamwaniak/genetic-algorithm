@@ -1,4 +1,5 @@
 import app.Individual;
+import app.Model;
 import app.utils.GreedyAlgorithm;
 import app.utils.ListUtils;
 import app.utils.RandomSearch;
@@ -11,8 +12,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Tests {
 
-    private Individual smallIndividual = DataReader.getModels(true).get(0);
-    private Individual individual = DataReader.getModels(true).get(1);
+    private Model smallModel = DataReader.getModels(true).get(0);
+    private Model model = DataReader.getModels(true).get(1);
 
 
     @Test
@@ -26,8 +27,9 @@ public class Tests {
         for(int i=0;i<4;i++){
             solution.set(i, i);
         }
-        smallIndividual.setSolution(solution);
-        Assert.assertEquals(smallIndividual.getFitness(),454);
+        Individual individual = new Individual(smallModel);
+        individual.setSolution(solution);
+        Assert.assertEquals(individual.getFitness(),908);
     }
 
     @Test
@@ -37,33 +39,34 @@ public class Tests {
         solution.add(3);
         solution.add(0);
         solution.add(1);
-        smallIndividual.setSolution(solution);
-        Assert.assertEquals(smallIndividual.getFitness(),395);
+        Individual individual = new Individual(smallModel);
+        individual.setSolution(solution);
+        Assert.assertEquals(individual.getFitness(),790);
     }
 
 
     @Test
     public void testRandomSearch1(){
-        RandomSearch randomSearch = new RandomSearch(smallIndividual);
+        RandomSearch randomSearch = new RandomSearch(smallModel);
         int minTotalCost = randomSearch.run(1000);
-        System.out.println("Actual solution is " + minTotalCost);
-        System.out.println("Optimal solution is 395");
+        System.out.println("Actual getSolution is " + minTotalCost);
+        System.out.println("Optimal getSolution is 395");
 
     }
 
     @Test
     public void testRandomSearch2(){
-        RandomSearch randomSearch = new RandomSearch(individual);
-        System.out.println("Actual solution is " + randomSearch.run(1000));
-        System.out.println("Optimal solution is 1160");
+        RandomSearch randomSearch = new RandomSearch(model);
+        System.out.println("Actual getSolution is " + randomSearch.run(1000));
+        System.out.println("Optimal getSolution is 1160");
     }
 
     @Test
     public void testGreedyAlgorithm(){
-        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(individual);
-        individual.setSolution(greedyAlgorithm.solution());
-        System.out.println("Actual solution is " + individual.getFitness());
-        System.out.println("Optimal solution is 1160");
+        Individual individual = new Individual(model);
+        individual.setSolution(GreedyAlgorithm.getSolution(model));
+        System.out.println("Actual getSolution is " + individual.getFitness());
+        System.out.println("Optimal getSolution is 1160");
     }
 
     @Test
@@ -84,6 +87,7 @@ public class Tests {
         ArrayList<Integer> list = ListUtils.getFilledListWithMinusOne(20);
         System.out.println(list.size());
         System.out.println(list.toString());
+        Assert.assertEquals(list.size(),20);
     }
 
     @Test
