@@ -1,11 +1,12 @@
 package app.utils;
 
 
-import app.Individual;
 import app.Model;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 
 public class DataReader {

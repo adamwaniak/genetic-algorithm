@@ -1,8 +1,10 @@
 package app.utils;
 
 
-import java.io.*;
-import java.util.Date;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.List;
 
 // <generation_number, best_fitness, average_fitness, worst fitness>  

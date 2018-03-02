@@ -1,4 +1,3 @@
-import app.Individual;
 import app.Model;
 import app.utils.DataReader;
 import app.utils.RandomSearch;

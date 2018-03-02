@@ -1,9 +1,9 @@
 import app.Individual;
 import app.Model;
+import app.utils.DataReader;
 import app.utils.GreedyAlgorithm;
 import app.utils.ListUtils;
 import app.utils.RandomSearch;
-import app.utils.DataReader;
 import org.junit.Assert;
 import org.junit.Test;
 

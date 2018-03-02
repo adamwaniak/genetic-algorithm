@@ -1,8 +1,6 @@
 import app.GeneticAlgorithm;
-import app.Individual;
 import app.Model;
 import app.utils.DataReader;
-import app.utils.RandomSearch;
 import org.junit.Assert;
 import org.junit.Test;
 

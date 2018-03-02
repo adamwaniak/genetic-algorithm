@@ -4,10 +4,10 @@ import app.utils.ListUtils;
 import app.utils.Result;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GeneticAlgorithm {
 
@@ -27,8 +27,8 @@ public class GeneticAlgorithm {
     }
 
 
-    public static List<Result> run(Model originIndividual, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, int tournamentSize) {
-        init(originIndividual, popSize, maxGenerationCount, crossoverRate, mutationRate, tournamentSize);
+    public static List<Result> run(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, int tournamentSize) {
+        init(model, popSize, maxGenerationCount, crossoverRate, mutationRate, tournamentSize);
         List<Result> results = new LinkedList<>();
         results.add(new Result(population, 0));
         while (generationCount < maxGenerationCount) {

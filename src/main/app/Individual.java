@@ -1,9 +1,6 @@
 package app;
 
-import app.utils.ListUtils;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class Individual {
 
