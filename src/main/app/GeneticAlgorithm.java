@@ -39,7 +39,7 @@ public class GeneticAlgorithm {
             results.add(new Result(population, generationCount));
         }
         System.out.println("Best individual in population: " + population.getFittest().getFitness());
-        System.out.println("Solution: " + population.getFittest().getSolution().toString());
+        System.out.println("Solution: " + population.getFittest().getGenotype().toString());
         return results;
     }
 
@@ -102,20 +102,27 @@ public class GeneticAlgorithm {
         ArrayList<Individual> individuals = population.getAll();
         individuals.sort(Comparator.comparingDouble(Individual::getRouletteSelectionProbability));
         for (int i = 0; i < individuals.size() - 1; i++) {
-            if (randomInt > individuals.get(i).getRouletteSelectionProbability() && randomInt < individuals.get(i + 1).getRouletteSelectionProbability()) {
-                return individuals.get(i);
+            if(i==0){
+                if(randomInt<individuals.get(i).getRouletteSelectionProbability()){
+                    return individuals.get(i);
+                }
+            }
+            if (randomInt >= individuals.get(i).getRouletteSelectionProbability() && randomInt < individuals.get(i + 1).getRouletteSelectionProbability()) {
+                return individuals.get(i+1);
             }
         }
         return individuals.get(individuals.size() - 1);
     }
 
     private static void initRoulette(Population population) {
-        int fitnessSum = population.getSumFitness();
-        int sumOfProbabilities = 0;
-        int probability;
+        population.setScores();
+        double scoresSum = population.getSumScores();
+        double probability;
+        double previousProbability = 0;
         for (Individual individual : population.getAll()) {
-            probability = sumOfProbabilities + (individual.getFitness() / fitnessSum);
+            probability = previousProbability +  (individual.getScore() / scoresSum);
             individual.setRouletteSelectionProbability(probability);
+            previousProbability = probability;
         }
     }
 
@@ -126,13 +133,13 @@ public class GeneticAlgorithm {
         Individual newIndiv = new Individual(model);
         ArrayList<Integer> child = ListUtils.getFilledListWithMinusOne(solutionSize);
         for (int i = 0; i < pivot; i++) {
-            child.set(i, indiv1.getSolution().get(i));
+            child.set(i, indiv1.getGenotype().get(i));
         }
         for (int i = pivot; i < solutionSize; i++) {
-            child.set(i, indiv2.getSolution().get(i));
+            child.set(i, indiv2.getGenotype().get(i));
         }
         repair(child);
-        newIndiv.setSolution(child);
+        newIndiv.setGenotype(child);
 
         return newIndiv;
     }

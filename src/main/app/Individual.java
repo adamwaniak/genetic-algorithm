@@ -7,10 +7,11 @@ public class Individual {
     /**
      * Solution is a list; indices are factories and values are places
      */
-    private ArrayList<Integer> solution;
+    private ArrayList<Integer> genotype;
     private Model model;
     private int fitness;
     private double rouletteSelectionProbability;
+    private int score;
 
     public Individual(Model model) {
         this.model = model;
@@ -19,7 +20,7 @@ public class Individual {
 
     public Individual(Individual individual) {
         this.model = individual.model;
-        this.solution = individual.solution;
+        this.genotype = individual.genotype;
     }
 
 
@@ -28,10 +29,10 @@ public class Individual {
     }
 
     public void swapSolutionValues(int i, int j) {
-        int firstLocation = solution.get(j);
-        int secondLocation = solution.get(i);
-        solution.set(i, firstLocation);
-        solution.set(j, secondLocation);
+        int firstLocation = genotype.get(j);
+        int secondLocation = genotype.get(i);
+        genotype.set(i, firstLocation);
+        genotype.set(j, secondLocation);
     }
 
     public Model getModel() {
@@ -42,13 +43,13 @@ public class Individual {
         this.model = model;
     }
 
-    public ArrayList<Integer> getSolution() {
-        return solution;
+    public ArrayList<Integer> getGenotype() {
+        return genotype;
     }
 
-    public void setSolution(ArrayList<Integer> solution) {
-        if (this.solution==null || !this.solution.equals(solution)) {
-            this.solution = solution;
+    public void setGenotype(ArrayList<Integer> genotype) {
+        if (this.genotype ==null || !this.genotype.equals(genotype)) {
+            this.genotype = genotype;
             setFitness();
         }
     }
@@ -68,21 +69,39 @@ public class Individual {
         this.rouletteSelectionProbability = rouletteSelectionProbability;
     }
 
-    @Override
-    public String toString() {
-        return "Individual{getSolution: " + solution.toString() + "; Total cost: " + getFitness() + "}";
+
+    public int getScore() {
+        return score;
     }
 
+
+    public void setScore(int score) {
+        this.score = score*2;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Individual{" +
+                "fitness=" + fitness +
+                ", rouletteSelectionProbability=" + rouletteSelectionProbability +
+                ", score=" + score +
+                '}';
+    }
+
+
     private void setFitness() {
-        if (solution.size() != model.getSize()) {
+        if (genotype.size() != model.getSize()) {
             System.out.println("INDIVIDUAL GET FITNESS ERROR");
         }
         int sum = 0;
         for (int i = 0; i < model.getSize(); i++) {
             for (int j = 0; j < model.getSize(); j++) {
-                sum += getCostBetweenTwoFacilities(i, j, solution.get(i), solution.get(j));
+                sum += getCostBetweenTwoFacilities(i, j, genotype.get(i), genotype.get(j));
             }
         }
         fitness = sum;
     }
+
+
 }

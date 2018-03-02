@@ -16,7 +16,7 @@ public class GreedyTest {
         Model model = models.get(4);
         ArrayList<Integer> solution = GreedyAlgorithm.getSolution(model);
         Individual individual = new Individual(model);
-        individual.setSolution(solution);
+        individual.setGenotype(solution);
         System.out.println("Solution: " + solution.toString());
         System.out.println("Cost: " + individual.getFitness());
     }

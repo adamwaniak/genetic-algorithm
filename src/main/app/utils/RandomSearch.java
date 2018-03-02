@@ -23,7 +23,7 @@ public class RandomSearch {
         ArrayList<Integer> bestSolution = new ArrayList<>();
         for (int i = 0; i < times; i++) {
             ArrayList<Integer> solution = getSolution();
-            individual.setSolution(solution);
+            individual.setGenotype(solution);
             totalCost = individual.getFitness();
             System.out.println("Calculated total cost: " + String.valueOf(totalCost));
             if (totalCost < minTotalCost) {

@@ -27,7 +27,7 @@ public class Tests {
             solution.set(i, i);
         }
         Individual individual = new Individual(smallModel);
-        individual.setSolution(solution);
+        individual.setGenotype(solution);
         Assert.assertEquals(individual.getFitness(),908);
     }
 
@@ -39,7 +39,7 @@ public class Tests {
         solution.add(0);
         solution.add(1);
         Individual individual = new Individual(smallModel);
-        individual.setSolution(solution);
+        individual.setGenotype(solution);
         Assert.assertEquals(individual.getFitness(),790);
     }
 
@@ -48,24 +48,24 @@ public class Tests {
     public void testRandomSearch1(){
         RandomSearch randomSearch = new RandomSearch(smallModel);
         int minTotalCost = randomSearch.run(1000);
-        System.out.println("Actual getSolution is " + minTotalCost);
-        System.out.println("Optimal getSolution is 395");
+        System.out.println("Actual getGenotype is " + minTotalCost);
+        System.out.println("Optimal getGenotype is 395");
 
     }
 
     @Test
     public void testRandomSearch2(){
         RandomSearch randomSearch = new RandomSearch(model);
-        System.out.println("Actual getSolution is " + randomSearch.run(1000));
-        System.out.println("Optimal getSolution is 1160");
+        System.out.println("Actual getGenotype is " + randomSearch.run(1000));
+        System.out.println("Optimal getGenotype is 1160");
     }
 
     @Test
     public void testGreedyAlgorithm(){
         Individual individual = new Individual(model);
-        individual.setSolution(GreedyAlgorithm.getSolution(model));
-        System.out.println("Actual getSolution is " + individual.getFitness());
-        System.out.println("Optimal getSolution is 1160");
+        individual.setGenotype(GreedyAlgorithm.getSolution(model));
+        System.out.println("Actual getGenotype is " + individual.getFitness());
+        System.out.println("Optimal getGenotype is 1160");
     }
 
     @Test

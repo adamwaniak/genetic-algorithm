@@ -18,7 +18,7 @@ public class Population {
         for (int i = 0; i < popSize; i++) {
             Individual individual = new Individual(model);
             RandomSearch randomSearch = new RandomSearch(model);
-            individual.setSolution(randomSearch.getSolution());
+            individual.setGenotype(randomSearch.getSolution());
             population.add(individual);
         }
     }
@@ -66,6 +66,29 @@ public class Population {
         return result;
     }
 
+    public int getSumScores(){
+        int result = 0;
+        for(Individual individual: population){
+            result+= individual.getScore();
+        }
+        return result;
+    }
+
+    public int getSize(){
+        return population.size();
+    }
+
+    public void setScores(){
+        if(population==null || population.size()==0){
+            System.out.println("Population setScores: POPULATION IS ZERO OR NULL");
+        }
+        int worstFitness = getWorst().getFitness();
+        for(Individual individual : population){
+
+            individual.setScore(worstFitness - individual.getFitness());
+        }
+    }
+
     public ArrayList<Individual> getAll() {
         return population;
     }
@@ -74,9 +97,6 @@ public class Population {
         return population.get(index);
     }
 
-    public void setPopulation(ArrayList<Individual> population) {
-        this.population = population;
-    }
 
     @Override
     public String toString() {

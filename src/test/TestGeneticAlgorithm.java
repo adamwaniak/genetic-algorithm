@@ -17,6 +17,6 @@ public class TestGeneticAlgorithm {
 
     @Test
     public void testRoulette() {
-        GeneticAlgorithm.run(model,100,100,0.7,0.05, GeneticAlgorithm.Selection.ROULETTE,0);
+        GeneticAlgorithm.run(model,100,100,0.7,0.15, GeneticAlgorithm.Selection.ROULETTE,0);
     }
 }
