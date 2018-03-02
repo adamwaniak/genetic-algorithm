@@ -21,14 +21,17 @@ public class GeneticAlgorithm {
     private static double crossoverRate;
     private static double mutationRate;
     private static int mutationCount;
+    private static Selection selectionType;
 
-
-    public GeneticAlgorithm() {
+    public enum Selection{
+        TOURNAMENT, ROULETTE
     }
 
 
-    public static List<Result> run(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, int tournamentSize) {
-        init(model, popSize, maxGenerationCount, crossoverRate, mutationRate, tournamentSize);
+    public GeneticAlgorithm() { }
+
+    public static List<Result> run(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate,Selection selectionType, int tournamentSize) {
+        init(model, popSize, maxGenerationCount, crossoverRate, mutationRate,selectionType, tournamentSize);
         List<Result> results = new LinkedList<>();
         results.add(new Result(population, 0));
         while (generationCount < maxGenerationCount) {
@@ -42,7 +45,7 @@ public class GeneticAlgorithm {
         return results;
     }
 
-    private static void init(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, int tournamentSize) {
+    private static void init(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate,Selection selectionType, int tournamentSize) {
         population = new Population();
         population.randomInit(model, popSize);
         generationCount = 0;
@@ -51,8 +54,13 @@ public class GeneticAlgorithm {
         GeneticAlgorithm.maxGenerationCount = maxGenerationCount;
         GeneticAlgorithm.crossoverRate = crossoverRate;
         GeneticAlgorithm.mutationRate = mutationRate;
+        GeneticAlgorithm.selectionType = selectionType;
         GeneticAlgorithm.tournamentSize = tournamentSize;
         GeneticAlgorithm.solutionSize = model.getSize();
+    }
+
+    private static Individual[] selection(Population population){
+        return null;
     }
 
     private static Population evolvePopulation( Population population) {
@@ -90,7 +98,7 @@ public class GeneticAlgorithm {
         return null;
     }
 
-    private static void rouletteInit(){
+    private static void initRoulette(Population population){
 
     }
 

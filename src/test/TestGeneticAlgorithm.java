@@ -19,7 +19,7 @@ public class TestGeneticAlgorithm {
     @Test
     public void testAlgorithm() {
         Model model = DataReader.getModels().get(4);
-        GeneticAlgorithm.run(model,100,1000,0.7,0.5,5);
+        GeneticAlgorithm.run(model,100,100,0.7,0.05, GeneticAlgorithm.Selection.TOURNAMENT,5);
 
     }
 

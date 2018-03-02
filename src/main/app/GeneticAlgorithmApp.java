@@ -14,12 +14,13 @@ public class GeneticAlgorithmApp {
         final double crossoverRate = 0.7;
         final double mutationRate = 0.05;
         final int tournamentSize = 5;
-
+        GeneticAlgorithm.Selection tournament = GeneticAlgorithm.Selection.TOURNAMENT;
+        GeneticAlgorithm.Selection rulette = GeneticAlgorithm.Selection.ROULETTE;
         List<Model> models = DataReader.getModels();
 
         for (Model model: models){
             //Genetic algorithm
-            List<Result> results = GeneticAlgorithm.run(model,popSize,generationSize,crossoverRate,mutationRate,tournamentSize);
+            List<Result> results = GeneticAlgorithm.run(model,popSize,generationSize,crossoverRate,mutationRate,tournament,tournamentSize);
             String fileName = "genetic_algorithm_result_" + model.getSize() + "n";
             DataWriter.writeAdditionalInformation(popSize,generationSize,crossoverRate,mutationRate,tournamentSize,fileName);
             DataWriter.writeData(results, fileName);
