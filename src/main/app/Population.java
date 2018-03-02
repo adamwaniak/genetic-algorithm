@@ -5,28 +5,33 @@ import app.utils.RandomSearch;
 import java.util.ArrayList;
 
 public class Population {
-    private ArrayList<Individual> individuals;
+    private ArrayList<Individual> population;
 
 
     public Population() {
-        individuals = new ArrayList<>();
+        population = new ArrayList<>();
     }
 
-    public void randomInit(Model model, int popSize) {
+    public void randomPopulate(Model model, int popSize) {
 
 
         for (int i = 0; i < popSize; i++) {
             Individual individual = new Individual(model);
             RandomSearch randomSearch = new RandomSearch(model);
             individual.setSolution(randomSearch.getSolution());
-            individuals.add(individual);
+            population.add(individual);
         }
+    }
+
+    public Individual getRandomIndividual(){
+        int randomId = (int) (Math.random() * population.size());
+        return population.get(randomId);
     }
 
 
     public Individual getFittest() {
-        Individual fittest = individuals.get(0);
-        for (Individual individual : individuals) {
+        Individual fittest = population.get(0);
+        for (Individual individual : population) {
             if (fittest.getFitness() > individual.getFitness()) {
                 fittest = individual;
             }
@@ -35,8 +40,8 @@ public class Population {
     }
 
     public Individual getWorst() {
-        Individual worst = individuals.get(0);
-        for (Individual individual : individuals) {
+        Individual worst = population.get(0);
+        for (Individual individual : population) {
             if (worst.getFitness() < individual.getFitness()) {
                 worst = individual;
             }
@@ -46,40 +51,44 @@ public class Population {
 
     public double getAverageFitness() {
         double fitness = 0;
-        for(Individual individual: individuals){
+        for(Individual individual: population){
             fitness += individual.getFitness();
         }
-        fitness = fitness/individuals.size();
+        fitness = fitness/ population.size();
         return fitness;
     }
 
     public int getSumFitness(){
         int result = 0;
-        for(Individual individual: individuals){
+        for(Individual individual: population){
             result+= individual.getFitness();
         }
         return result;
     }
 
-    public ArrayList<Individual> getIndividuals() {
-        return individuals;
+    public ArrayList<Individual> getAll() {
+        return population;
     }
 
-    public void setIndividuals(ArrayList<Individual> individuals) {
-        this.individuals = individuals;
+    public Individual get(int index) {
+        return population.get(index);
+    }
+
+    public void setPopulation(ArrayList<Individual> population) {
+        this.population = population;
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Individual individual: individuals){
+        for (Individual individual: population){
             stringBuilder.append(individual.toString());
         }
 
 
         return "Population{" +
-                "individuals=" + stringBuilder.toString() +
+                "population=" + stringBuilder.toString() +
                 '}';
     }
 }

@@ -3,10 +3,7 @@ package app;
 import app.utils.ListUtils;
 import app.utils.Result;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GeneticAlgorithm {
@@ -23,15 +20,16 @@ public class GeneticAlgorithm {
     private static int mutationCount;
     private static Selection selectionType;
 
-    public enum Selection{
+    public enum Selection {
         TOURNAMENT, ROULETTE
     }
 
 
-    public GeneticAlgorithm() { }
+    public GeneticAlgorithm() {
+    }
 
-    public static List<Result> run(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate,Selection selectionType, int tournamentSize) {
-        init(model, popSize, maxGenerationCount, crossoverRate, mutationRate,selectionType, tournamentSize);
+    public static List<Result> run(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, Selection selectionType, int tournamentSize) {
+        init(model, popSize, maxGenerationCount, crossoverRate, mutationRate, selectionType, tournamentSize);
         List<Result> results = new LinkedList<>();
         results.add(new Result(population, 0));
         while (generationCount < maxGenerationCount) {
@@ -45,9 +43,9 @@ public class GeneticAlgorithm {
         return results;
     }
 
-    private static void init(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate,Selection selectionType, int tournamentSize) {
+    private static void init(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, Selection selectionType, int tournamentSize) {
         population = new Population();
-        population.randomInit(model, popSize);
+        population.randomPopulate(model, popSize);
         generationCount = 0;
         GeneticAlgorithm.model = model;
         GeneticAlgorithm.popSize = popSize;
@@ -59,27 +57,33 @@ public class GeneticAlgorithm {
         GeneticAlgorithm.solutionSize = model.getSize();
     }
 
-    private static Individual[] selection(Population population){
-        return null;
-    }
-
-    private static Population evolvePopulation( Population population) {
+    private static Population evolvePopulation(Population population) {
         Population newPopulation = new Population();
-        for (int i = 0; i < population.getIndividuals().size(); i++) {
+        if (selectionType.equals(Selection.ROULETTE)) {
+            initRoulette(population);
+        }
+        for (int i = 0; i < population.getAll().size(); i++) {
 
-            int randomId = (int) (Math.random() * population.getIndividuals().size());
-            Individual newIndiv = population.getIndividuals().get(randomId);
+            Individual newIndiv;
 
-            if (Math.random() <= crossoverRate){
-                Individual indiv1 = tournamentSelection(population);
-                Individual indiv2 = tournamentSelection(population);
+            if (Math.random() <= crossoverRate) {
+                Individual indiv1;
+                Individual indiv2;
+                if (selectionType.equals(Selection.TOURNAMENT)) {
+                    indiv1 = tournamentSelection(population);
+                    indiv2 = tournamentSelection(population);
+                } else {
+                    indiv1 = rouletteSelection(population);
+                    indiv2 = rouletteSelection(population);
+                }
                 newIndiv = crossover(indiv1, indiv2);
+            }else{
+                newIndiv = population.getRandomIndividual();
             }
-
             if (Math.random() <= mutationRate) {
                 mutate(newIndiv);
             }
-            newPopulation.getIndividuals().add(newIndiv);
+            newPopulation.getAll().add(newIndiv);
         }
         return newPopulation;
     }
@@ -88,20 +92,32 @@ public class GeneticAlgorithm {
     private static Individual tournamentSelection(Population population) {
         Population tournament = new Population();
         for (int i = 0; i < tournamentSize; i++) {
-            int randomId = (int) (Math.random() * population.getIndividuals().size());
-            tournament.getIndividuals().add(i, population.getIndividuals().get(randomId));
+            tournament.getAll().add(i, population.getRandomIndividual());
         }
         return tournament.getFittest();
     }
 
-    private static Individual rouletteSelection(Population population){
-        return null;
+    private static Individual rouletteSelection(Population population) {
+        double randomInt = Math.random();
+        ArrayList<Individual> individuals = population.getAll();
+        individuals.sort(Comparator.comparingDouble(Individual::getRouletteSelectionProbability));
+        for (int i = 0; i < individuals.size() - 1; i++) {
+            if (randomInt > individuals.get(i).getRouletteSelectionProbability() && randomInt < individuals.get(i + 1).getRouletteSelectionProbability()) {
+                return individuals.get(i);
+            }
+        }
+        return individuals.get(individuals.size() - 1);
     }
 
-    private static void initRoulette(Population population){
-
+    private static void initRoulette(Population population) {
+        int fitnessSum = population.getSumFitness();
+        int sumOfProbabilities = 0;
+        int probability;
+        for (Individual individual : population.getAll()) {
+            probability = sumOfProbabilities + (individual.getFitness() / fitnessSum);
+            individual.setRouletteSelectionProbability(probability);
+        }
     }
-
 
 
     private static Individual crossover(Individual indiv1, Individual indiv2) {

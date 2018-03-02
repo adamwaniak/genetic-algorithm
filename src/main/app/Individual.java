@@ -10,6 +10,7 @@ public class Individual {
     private ArrayList<Integer> solution;
     private Model model;
     private int fitness;
+    private double rouletteSelectionProbability;
 
     public Individual(Model model) {
         this.model = model;
@@ -57,6 +58,14 @@ public class Individual {
             setFitness();
         }
         return fitness;
+    }
+
+    public double getRouletteSelectionProbability() {
+        return rouletteSelectionProbability;
+    }
+
+    public void setRouletteSelectionProbability(double rouletteSelectionProbability) {
+        this.rouletteSelectionProbability = rouletteSelectionProbability;
     }
 
     @Override
