@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListUtils {
+    private ListUtils() {
+    }
+
     public static ArrayList<Integer> getFilledList(int size) {
         ArrayList<Integer> result = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
@@ -28,13 +31,11 @@ public class ListUtils {
         return result;
     }
 
-    public static List<Boolean> getFalseList(int size){
+    public static List<Boolean> getFalseList(int size) {
         List<Boolean> result = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
             result.add(false);
         }
         return result;
     }
-
-    private ListUtils(){}
 }

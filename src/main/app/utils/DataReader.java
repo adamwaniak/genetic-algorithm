@@ -12,19 +12,20 @@ import java.util.Scanner;
 public class DataReader {
 
     //Linux
-//    private static final String dataPath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/data.txt";
-//    private static final String testDatePath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/test-data.txt";
+    private static final String dataPath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/data.txt";
+    private static final String testDatePath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/test-data.txt";
     //Windows
-    private static final String dataPath = "C:\\Users\\adamw\\IdeaProjects\\genetic-algorithm\\src\\resources\\data.txt";
-    private static final String testDatePath = "C:\\Users\\adamw\\IdeaProjects\\genetic-algorithm\\src\\resources\\test-data.txt";
+//    private static final String dataPath = "C:\\Users\\adamw\\IdeaProjects\\genetic-algorithm\\src\\resources\\data.txt";
+//    private static final String testDatePath = "C:\\Users\\adamw\\IdeaProjects\\genetic-algorithm\\src\\resources\\test-data.txt";
 
     private static List<Model> models;
 
-    private DataReader() { }
+    private DataReader() {
+    }
 
 
     public static List<Model> getModels(boolean isTest) {
-        if (models == null){
+        if (models == null) {
             models = getModelsFromData(isTest);
         }
         return models;
@@ -35,14 +36,14 @@ public class DataReader {
     }
 
 
-    private static List<Model> getModelsFromData(){
+    private static List<Model> getModelsFromData() {
         return getModelsFromData(false);
     }
 
     /**
-     * @return Map<n   ,       Individual> where n in number of locations
+     * @return Map<n       ,               Individual> where n in number of locations
      */
-    private static List<Model> getModelsFromData(boolean isTest ) {
+    private static List<Model> getModelsFromData(boolean isTest) {
         List<Model> models = new ArrayList<>();
         int numberOfLocations;
         String path;
@@ -93,7 +94,6 @@ public class DataReader {
 
         return models;
     }
-
 
 
 }

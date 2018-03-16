@@ -48,7 +48,7 @@ public class Individual {
     }
 
     public void setGenotype(ArrayList<Integer> genotype) {
-        if (this.genotype ==null || !this.genotype.equals(genotype)) {
+        if (this.genotype == null || !this.genotype.equals(genotype)) {
             this.genotype = genotype;
             setFitness();
         }
@@ -76,7 +76,7 @@ public class Individual {
 
 
     public void setScore(int score) {
-        this.score = score*2;
+        this.score = score * 2;
     }
 
 

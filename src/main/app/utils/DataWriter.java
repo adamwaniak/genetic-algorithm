@@ -10,18 +10,19 @@ import java.util.List;
 // <generation_number, best_fitness, average_fitness, worst fitness>  
 public class DataWriter {
 
-    private static final String dataDirPath = "C:\\Users\\adamw\\IdeaProjects\\genetic-algorithm\\src\\resources\\";
+    //    private static final String dataDirPath = "C:\\Users\\adamw\\IdeaProjects\\genetic-algorithm\\src\\resources\\";
+    private static final String dataDirPath = "/home/adam/IdeaProjects/genetic-algorithm/src/resources/";
 
-    public static void writeData(List<Result> results, String fileName) {
+    public static void writeData(List<SingleResult> singleResults, String fileName) {
         try {
 
             File file = new File(dataDirPath + fileName + ".txt");
 
-            PrintWriter printWriter = new PrintWriter(new FileOutputStream(file,true));
+            PrintWriter printWriter = new PrintWriter(new FileOutputStream(file, true));
             printWriter.println("generation_number, best_fitness, average_fitness, worst fitness");
 
-            for (Result result : results) {
-                printWriter.printf("%d,%d,%f,%d \n", result.getGeneration(), result.getBestFitness(), result.getAverageFitness(), result.getWorstFitness());
+            for (SingleResult singleResult : singleResults) {
+                printWriter.printf("%d,%d,%f,%d \n", singleResult.getGeneration(), singleResult.getBestFitness(), singleResult.getAverageFitness(), singleResult.getWorstFitness());
             }
             printWriter.close();
         } catch (Exception e) {

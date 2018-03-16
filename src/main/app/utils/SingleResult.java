@@ -2,13 +2,20 @@ package app.utils;
 
 import app.Population;
 
-public class Result {
+public class SingleResult {
     private int generation;
     private int bestFitness;
     private double averageFitness;
     private int worstFitness;
 
-    public Result(Population population, int generation) {
+    public SingleResult(int generation, int bestFitness, double averageFitness, int worstFitness) {
+        this.generation = generation;
+        this.bestFitness = bestFitness;
+        this.averageFitness = averageFitness;
+        this.worstFitness = worstFitness;
+    }
+
+    public SingleResult(Population population, int generation) {
         this.generation = generation;
         this.bestFitness = population.getFittest().getFitness();
         this.averageFitness = population.getAverageFitness();

@@ -17,13 +17,12 @@ public class Population {
 
         for (int i = 0; i < popSize; i++) {
             Individual individual = new Individual(model);
-            RandomSearch randomSearch = new RandomSearch(model);
-            individual.setGenotype(randomSearch.getSolution());
+            individual.setGenotype(RandomSearch.getSolution(model));
             population.add(individual);
         }
     }
 
-    public Individual getRandomIndividual(){
+    public Individual getRandomIndividual() {
         int randomId = (int) (Math.random() * population.size());
         return population.get(randomId);
     }
@@ -51,39 +50,39 @@ public class Population {
 
     public double getAverageFitness() {
         double fitness = 0;
-        for(Individual individual: population){
+        for (Individual individual : population) {
             fitness += individual.getFitness();
         }
-        fitness = fitness/ population.size();
+        fitness = fitness / population.size();
         return fitness;
     }
 
-    public int getSumFitness(){
+    public int getSumFitness() {
         int result = 0;
-        for(Individual individual: population){
-            result+= individual.getFitness();
+        for (Individual individual : population) {
+            result += individual.getFitness();
         }
         return result;
     }
 
-    public int getSumScores(){
+    public int getSumScores() {
         int result = 0;
-        for(Individual individual: population){
-            result+= individual.getScore();
+        for (Individual individual : population) {
+            result += individual.getScore();
         }
         return result;
     }
 
-    public int getSize(){
+    public int getSize() {
         return population.size();
     }
 
-    public void setScores(){
-        if(population==null || population.size()==0){
+    public void setScores() {
+        if (population == null || population.size() == 0) {
             System.out.println("Population setScores: POPULATION IS ZERO OR NULL");
         }
         int worstFitness = getWorst().getFitness();
-        for(Individual individual : population){
+        for (Individual individual : population) {
 
             individual.setScore(worstFitness - individual.getFitness());
         }
@@ -102,7 +101,7 @@ public class Population {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Individual individual: population){
+        for (Individual individual : population) {
             stringBuilder.append(individual.toString());
         }
 

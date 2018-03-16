@@ -1,46 +1,32 @@
 package app.utils;
 
 
-import app.Individual;
 import app.Model;
+import app.Population;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class RandomSearch {
 
 
-    private static Individual individual;
-    public RandomSearch(Model model) {
-        individual = new Individual(model);
-    }
-
-    public int run(int times) {
-        int minTotalCost = Integer.MAX_VALUE;
-        int totalCost;
-        ArrayList<Integer> bestSolution = new ArrayList<>();
-        for (int i = 0; i < times; i++) {
-            ArrayList<Integer> solution = getSolution();
-            individual.setGenotype(solution);
-            totalCost = individual.getFitness();
-            System.out.println("Calculated total cost: " + String.valueOf(totalCost));
-            if (totalCost < minTotalCost) {
-                minTotalCost = totalCost;
-                bestSolution = solution;
-            }
+    public static List<SingleResult> run(Model model, int popSize, int generationSize) {
+        List<SingleResult> result = new LinkedList<>();
+        for (int i = 0; i < generationSize; i++) {
+            Population population = new Population();
+            population.randomPopulate(model, popSize);
+            SingleResult singleResult = new SingleResult(population, i);
+            result.add(singleResult);
         }
-        System.out.println("Minimal total cost: " + String.valueOf(minTotalCost));
-        System.out.println("Solution: " + bestSolution.toString());
-        return minTotalCost;
+        return result;
     }
 
 
-
-
-    public ArrayList<Integer> getSolution() {
-        int n = individual.getModel().getSize();
+    public static ArrayList<Integer> getSolution(Model model) {
+        int n = model.getSize();
         ArrayList<Integer> result = ListUtils.getFilledListWithZeroes(n);
         List<Integer> factories = ListUtils.getFilledList(n);
         Collections.shuffle(factories);
@@ -50,7 +36,6 @@ public class RandomSearch {
         }
         return result;
     }
-
 
 
 }

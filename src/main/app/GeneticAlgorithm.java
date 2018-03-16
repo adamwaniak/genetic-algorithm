@@ -1,7 +1,7 @@
 package app;
 
 import app.utils.ListUtils;
-import app.utils.Result;
+import app.utils.SingleResult;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -20,27 +20,21 @@ public class GeneticAlgorithm {
     private static int mutationCount;
     private static Selection selectionType;
 
-    public enum Selection {
-        TOURNAMENT, ROULETTE
-    }
-
-
     public GeneticAlgorithm() {
     }
 
-    public static List<Result> run(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, Selection selectionType, int tournamentSize) {
+    public static List<SingleResult> run(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, Selection selectionType, int tournamentSize) {
         init(model, popSize, maxGenerationCount, crossoverRate, mutationRate, selectionType, tournamentSize);
-        List<Result> results = new LinkedList<>();
-        results.add(new Result(population, 0));
+        List<SingleResult> singleResults = new LinkedList<>();
+        singleResults.add(new SingleResult(population, 0));
         while (generationCount < maxGenerationCount) {
-            System.out.println("Actual best individual: " + population.getFittest().getFitness());
             population = evolvePopulation(population);
             generationCount++;
-            results.add(new Result(population, generationCount));
+            singleResults.add(new SingleResult(population, generationCount));
         }
         System.out.println("Best individual in population: " + population.getFittest().getFitness());
         System.out.println("Solution: " + population.getFittest().getGenotype().toString());
-        return results;
+        return singleResults;
     }
 
     private static void init(Model model, int popSize, int maxGenerationCount, double crossoverRate, double mutationRate, Selection selectionType, int tournamentSize) {
@@ -77,7 +71,7 @@ public class GeneticAlgorithm {
                     indiv2 = rouletteSelection(population);
                 }
                 newIndiv = crossover(indiv1, indiv2);
-            }else{
+            } else {
                 newIndiv = population.getRandomIndividual();
             }
             if (Math.random() <= mutationRate) {
@@ -87,7 +81,6 @@ public class GeneticAlgorithm {
         }
         return newPopulation;
     }
-
 
     private static Individual tournamentSelection(Population population) {
         Population tournament = new Population();
@@ -102,13 +95,13 @@ public class GeneticAlgorithm {
         ArrayList<Individual> individuals = population.getAll();
         individuals.sort(Comparator.comparingDouble(Individual::getRouletteSelectionProbability));
         for (int i = 0; i < individuals.size() - 1; i++) {
-            if(i==0){
-                if(randomInt<individuals.get(i).getRouletteSelectionProbability()){
+            if (i == 0) {
+                if (randomInt < individuals.get(i).getRouletteSelectionProbability()) {
                     return individuals.get(i);
                 }
             }
             if (randomInt >= individuals.get(i).getRouletteSelectionProbability() && randomInt < individuals.get(i + 1).getRouletteSelectionProbability()) {
-                return individuals.get(i+1);
+                return individuals.get(i + 1);
             }
         }
         return individuals.get(individuals.size() - 1);
@@ -120,12 +113,11 @@ public class GeneticAlgorithm {
         double probability;
         double previousProbability = 0;
         for (Individual individual : population.getAll()) {
-            probability = previousProbability +  (individual.getScore() / scoresSum);
+            probability = previousProbability + (individual.getScore() / scoresSum);
             individual.setRouletteSelectionProbability(probability);
             previousProbability = probability;
         }
     }
-
 
     private static Individual crossover(Individual indiv1, Individual indiv2) {
 
@@ -183,6 +175,10 @@ public class GeneticAlgorithm {
 
     private static int getRandomInt(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max);
+    }
+
+    public enum Selection {
+        TOURNAMENT, ROULETTE
     }
 
 
